@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="Queue" type="hudson.model.Queue"/>
+  <xsd:complexType name="hudson.model.Queue">
+    <xsd:sequence>
+      <xsd:element name="item" type="hudson.model.Queue-Item" minOccurs="0" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation> Gets a snapshot of items in the queue.
+
+ Generally speaking the array is sorted such that the items that are most likely built sooner are
+ at the end.
+</xsd:documentation>
+        </xsd:annotation>
+
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="hudson.model.Queue-Item">
+    <xsd:complexContent>
+      <xsd:extension base="hudson.model.Actionable">
+        <xsd:sequence>
+          <xsd:element name="blocked" type="xsd:boolean">
+            <xsd:annotation>
+
+              <xsd:documentation> Build is blocked because another build is in progress,
+ required {@link Resource}s are not available, or otherwise blocked
+ by {@link Task#isBuildBlocked()}.
+</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="buildable" type="xsd:boolean">
+            <xsd:annotation>
+              <xsd:documentation> Build is waiting the executor to become available.
+ This flag is only used in {@link Queue#getItems()} for
+ 'pseudo' items that are actually not really in the queue.
+</xsd:documentation>
+            </xsd:annotation>
+
+          </xsd:element>
+          <xsd:element name="params" type="xsd:string" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation> Gets a human-readable message about the parameters of this item
+ @return String
+</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="stuck" type="xsd:boolean">
+            <xsd:annotation>
+
+              <xsd:documentation> True if the item is starving for an executor for too long.
+</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="task" type="xsd:anyType" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation> Project to be built.
+</xsd:documentation>
+            </xsd:annotation>
+
+          </xsd:element>
+          <xsd:element name="why" type="xsd:string" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation> Gets a human-readable status message describing why it's in the queue.
+</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="hudson.model.Actionable">
+    <xsd:sequence>
+      <xsd:element name="action" type="xsd:anyType" minOccurs="0" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation> Gets actions contributed to this build.
+
+ &lt;p&gt;
+
+ A new {@link Action} can be added by {@code getActions().add(...)}.
+
+ @return
+      may be empty but never null.
+</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>
+

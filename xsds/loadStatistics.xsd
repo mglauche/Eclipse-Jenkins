@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="OverallLoadStatistics" type="hudson.model.OverallLoadStatistics"/>
+  <xsd:complexType name="hudson.model.OverallLoadStatistics">
+    <xsd:complexContent>
+      <xsd:extension base="hudson.model.LoadStatistics">
+        <xsd:sequence>
+          <xsd:element name="totalQueueLength" type="hudson.model.MultiStageTimeSeries" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation> Number of total {@link Queue.BuildableItem}s that represents blocked builds.
+
+</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="hudson.model.MultiStageTimeSeries">
+    <xsd:sequence>
+
+      <xsd:element name="hour" type="hudson.model.TimeSeries" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation> Updated every 1 hour. Keep data up to 4 weeks.
+</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="min" type="hudson.model.TimeSeries" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation> Updated every 1 min. Keep data up to 1 day.
+
+</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="sec10" type="hudson.model.TimeSeries" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation> Updated every 10 seconds. Keep data up to 1 hour.
+</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="hudson.model.TimeSeries">
+    <xsd:sequence>
+      <xsd:element name="history" type="xsd:anyType" minOccurs="0" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation> Gets the history data of the exponential moving average. The returned array should be treated
+ as read-only and immutable.
+
+ @return
+      Always non-null, contains at least one entry.
+</xsd:documentation>
+        </xsd:annotation>
+
+      </xsd:element>
+      <xsd:element name="latest" type="xsd:anyType">
+        <xsd:annotation>
+          <xsd:documentation> Gets the most up-to-date data point value. {@code getHistory[0]}.
+</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="hudson.model.LoadStatistics">
+    <xsd:sequence>
+      <xsd:element name="busyExecutors" type="hudson.model.MultiStageTimeSeries" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation> Number of busy executors and how it changes over time.
+</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="queueLength" type="hudson.model.MultiStageTimeSeries" minOccurs="0">
+
+        <xsd:annotation>
+          <xsd:documentation> Number of {@link Queue.BuildableItem}s that can run on any node in this node set but blocked.
+</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="totalExecutors" type="hudson.model.MultiStageTimeSeries" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation> Number of total executors and how it changes over time.
+
+</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>
+
